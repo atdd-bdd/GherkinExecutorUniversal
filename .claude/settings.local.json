@@ -17,7 +17,9 @@
       "PowerShell(Get-Content \"C:\\\\Users\\\\user\\\\source\\\\repos\\\\GherkinExecutorCPP\\\\gherkinexecutor_ref_backup\\\\Feature_Background\\\\Feature_Background_glue.cpp.tmpl\" | ForEach-Object { Write-Host \"[$_]\" })",
       "PowerShell(& \"C:\\\\Program Files\\\\Microsoft Visual Studio\\\\2022\\\\Community\\\\MSBuild\\\\Current\\\\Bin\\\\MSBuild.exe\" \"C:\\\\Users\\\\user\\\\source\\\\repos\\\\GherkinExecutorCPP\\\\GherkinExecutorCPP.vcxproj\" /p:Configuration=Debug /p:Platform=x64 /verbosity:minimal 2>&1 | Select-Object -Last 5)",
       "PowerShell(& \"C:\\\\Program Files\\\\Microsoft Visual Studio\\\\2022\\\\Community\\\\MSBuild\\\\Current\\\\Bin\\\\MSBuild.exe\" \"C:\\\\Users\\\\user\\\\source\\\\repos\\\\GherkinExecutorUniversal\\\\GherkinExecutorUniversal.sln\" /p:Configuration=Debug /p:Platform=x64 /t:Build /v:minimal 2>&1 | Select-Object -Last 15)",
-      "Bash(git init *)"
+      "Bash(git init *)",
+      "Bash(gh auth *)",
+      "PowerShell(gh auth *)"
     ]
   }
 }
