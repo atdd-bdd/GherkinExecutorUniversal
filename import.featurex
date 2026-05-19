@@ -1,0 +1,28 @@
+Feature: Import
+
+# creates the include statements for all the files (including the data files)
+# you can add your own classes, as long as they have a constructor that takes a string 
+# and a to_string() method that returns a string  
+
+Import 
+| Datatype        | ConversionMethod        | Import    | Notes  |
+| std::bitset<8>  | std::bitset<8>($)       | <bitset>  |        |
+
+Data ImportData 
+| Name      | Default   | Datatype        | Notes  |
+| myBitset  | 10110111  | std::bitset<8>  |        |
+
+Scenario: Use an import
+Given this data should be okay # ListOfObject ImportData 
+| myBitset  |
+| 10110111  |
+| 11101111  |
+
+Scenario: Should fail 
+Given this data should fail # ListOfObject ImportData 
+| myBitset  |
+| 10X01010  |
+| 11101111  |
+
+
+

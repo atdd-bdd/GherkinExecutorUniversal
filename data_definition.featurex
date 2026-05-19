@@ -1,0 +1,53 @@
+Feature: Data Definition
+
+
+Scenario Simple Comparison 
+Given table is # ListOfObject ATest 
+| anInt  | aString    | aDouble  |
+| 1      | something  | 1.2      |
+When compared to # ListOfObject ATest Compare 
+| aString    | 
+| something  | 
+Then result is 
+| true | 
+When compared to # ListOfObject ATest Compare 
+| aString         | 
+| something else  | 
+Then result is 
+| false| 
+
+
+# will create an internal class name 
+Data ATest 
+| Name     | Default  | Datatype  | Note  |
+| anInt    | 0        | Int       |       |
+| aString  | ~        | String    |       |
+| aDouble  | 4.0      | Double    |       |
+
+# will create a .tmpl file for Existing 
+
+Data TestIn Existing 
+| Name    | Default  | Datatype  | Note  |
+| aValue  | 0        | int       |       |
+| bValue  | ~        | String    |       |
+| cValue  | 4.0      | double    |       |
+
+Data AllTypes
+| Name            | Default   | DataType            | Note       |
+| aBool           | false     | bool                | primitive  |
+| aChar           | a         | char                | primitive  |
+| aSChar          | 0         | signed char         | primitive  |
+| aUChar          | 0         | unsigned char       | primitive  |
+| aShort          | 0         | short               | primitive  |
+| aUShort         | 0         | unsigned short      | primitive  |
+| anInt           | 0         | int                 | primitive  |
+| aUInt           | 0         | unsigned int        | primitive  |
+| aLong           | 0         | long                | primitive  |
+| aULong          | 0         | unsigned long       | primitive  |
+| aLongLong       | 0         | long long           | primitive  |
+| aULongLong      | 0         | unsigned long long  | primitive  |
+| aFloat          | 0.0       | float               | primitive  |
+| aDouble         | 0.0       | double              | primitive  |
+| aLongDouble     | 0.0       | long double         | primitive  |
+| aString         |           | string              | primitive  |
+

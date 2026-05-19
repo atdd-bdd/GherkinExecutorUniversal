@@ -1,0 +1,36 @@
+# GherkinExecutor Configuration
+configuration:
+  logIt: true
+  inTest: false
+  traceOn: false
+  addLineToString: true
+  searchTree: false
+  oneDataFile: true
+  spaceCharacters: '~'
+  doNotCompare: "?DNC?"
+  currentDirectory: ""
+  featureSubDirectory: ""
+  treeDirectory: "features/"
+  startingFeatureDirectory: "features/"
+  packageName: "gherkinexecutor"
+  testSubDirectory: "gherkinexecutor/"
+  dataDefinitionFileExtension: "cpp"
+  testFramework: "gtest"
+  addToPackageName: ""
+  filterExpression: ""
+  tagFilter: "@smoke"
+  linesToAddForDataAndGlue:
+    - "#include <iostream>"
+  outputLanguage: "cpp"
+  featureFiles:
+    - "starting.featurex"
+    - "data_definition.featurex"
+    - "examples.featurex"
+    - "background.featurex"
+    - "define.featurex"
+    - "tables_and_strings.featurex"
+    - "datatype.featurex"
+    - "simple_test.featurex"
+
+
+

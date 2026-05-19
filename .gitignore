@@ -1,0 +1,23 @@
+# Build output
+x64/
+Debug/
+Release/
+*.obj
+*.pdb
+*.ilk
+*.exp
+*.lib
+
+# Visual Studio
+*.user
+*.suo
+*.VC.db
+*.VC.opendb
+.vs/
+
+# Executables
+*.exe
+*.dll
+
+# Gherkin executor runtime output
+gherkinexecutor/

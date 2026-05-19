@@ -1,0 +1,116 @@
+Feature: Tables and Strings 
+
+Scenario: Here are string options 
+
+* A multiline string to a string 
+"""
+One line 
+Two line 
+"""
+
+* A multiline string to a List of String # ListOfString
+"""
+Three line
+Four line 
+"""
+
+Scenario: Check String Variations
+Given multiline string
+"""
+One line 
+Two line 
+"""
+Then should be equal to this list # ListOfString
+"""
+One line 
+Two line 
+"""
+
+
+Scenario: Here are table options 
+
+* A table to List of List of String   
+| aa  | bb  |
+| cc  | dd  |
+
+* A Table to List Of List Of Object # ListOfListOfObject Integer
+| 1 | 2 |
+| 3 | 4 |
+| 5 | 6 |
+
+* A table to List of Object # ListOfObject ExampleClass 
+| FieldA  | FieldB  |
+| a       | b       |
+| c       | d       |
+
+* A table to List of Object # ListOfObject ExampleClass transpose 
+| FieldA  | a  | c  |
+| FieldB  | b  | d  |
+
+* A table to List of Object with Defaults # ListOfObject ExampleClass 
+| FieldA  |
+| a       |
+| c       |
+
+* A table to List of Object with Blanks in Values # ListOfObject ExampleClassWithBlanks
+| Field 1  | Field 2  |
+| ~        | b        |
+| c        | ~        |
+# Check for blanks 
+
+* A table to List of Object with Blanks in Defaults # ListOfObject ExampleClassWithBlanks
+| Field 1  | 
+| ~        | 
+| c        | 
+# Check for blanks 
+
+
+* A table to String # String
+| aa  | bb  |
+| cc  | dd  |
+
+
+Scenario: Table to String 
+Given A table to String # String
+| aa  | bb  |
+| cc  | dd  |
+Then string should be same as:
+"""
+| aa  | bb  |
+| cc  | dd  |
+"""
+
+
+Scenario: Table without all fields uses defaults
+Given A table to List of Object with Defaults # ListOfObject ExampleClass 
+| FieldA  |
+| a       |
+| c       |
+Then table should be same as # ListOfObject ExampleClass
+| FieldA  | FieldB  |
+| a       | x       |
+| c       | x       |
+
+Scenario:  Transpose Table
+Given A table to List of Object # ListOfObject ExampleClass 
+| FieldA  | FieldB  |
+| a       | b       |
+| c       | d       |
+Then transposed table to List of Object should be the same  # ListOfObject ExampleClass transpose 
+| FieldA  | a  | c  |
+| FieldB  | b  | d  |
+
+Data ExampleClass 
+| Name    | Default  |
+| FieldA  | y        |
+| FieldB  | x        | 
+
+Data ExampleClassWithBlanks
+| Name     | Default  |
+| Field 1  | ~        |
+| Field 2  | ~        |
+
+
+
+
+

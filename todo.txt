@@ -1,0 +1,37 @@
+
+To do:
+
+A feature file can have:
+
+import "yyy\xxxx"    -  the data types in the reference file are included and 
+
+c++ include "yyy\xxxx' in the output files so they be used.   This assumes that the import file has
+been compiled into the appropriate directory.   
+
+
+Namespace - use the containing directory name (from the root directory)    
+
+Features in :
+
+testroot
+	sub 
+
+Output files should be in the corresponding directorys.    Multiple feature implementations can 
+appear in these directorys.   
+
+testroot
+	sub 
+
+So move a feature file and the import / include directories have to change in the file.   
+
+The corresponding files have to change in the translated code. 
+
+
+
+namespace testroot.sub {
+
+} 
+
+
+
+If moved in the IDE, redo the namespace (and namespace usages).   
