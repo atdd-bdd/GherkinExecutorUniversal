@@ -45,6 +45,7 @@ std::vector<std::string> PythonAdapter::testFileIncludes() {
     std::vector<std::string> inc;
     inc.push_back("import unittest");
     inc.push_back("from typing import List");
+    inc.push_back("import sys");
     inc.push_back("from " + packagePath + " import *");
     inc.push_back("from " + packagePath + "." + glueClass + " import " + glueClass);
     return inc;
@@ -77,6 +78,17 @@ std::string PythonAdapter::glueMethodSignature(const std::string& name,
                                                 const std::string& paramType,
                                                 const std::string& paramName) {
     return "    def " + name + "(self, " + paramName + ": " + paramType + ") -> None:";
+}
+
+std::string PythonAdapter::logFunction(const std::string& dirPath) {
+    if (!Configuration::logIt) return "";
+    std::string filename = dirPath + "/log.txt";
+    return "\n    def log(self, value):\n"
+           "        try:\n"
+           "            with open(\"" + filename + "\", \"a\") as my_log:\n"
+           "                my_log.write(value + \"\\n\")\n"
+           "        except IOError:\n"
+           "            print(\"*** Cannot write to log\", file=sys.stderr)\n";
 }
 
 } // namespace gherkinexecutor

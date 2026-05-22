@@ -15,6 +15,13 @@ namespace gherkinexecutor {
     class StepConstruct;
     class ImportConstruct;
     class DefineConstruct;
+    class PythonDataConstruct;
+    class PythonStepConstruct;
+    class PythonTemplateConstruct;
+    class JavaDataConstruct;
+    class JavaStepConstruct;
+    class CsharpDataConstruct;
+    class CsharpStepConstruct;
 
     template<typename K, typename V>
     class Pair {
@@ -119,6 +126,13 @@ namespace gherkinexecutor {
         friend class ImportConstruct;
         friend class DefineConstruct;
         friend class InputIterator;
+        friend class PythonDataConstruct;
+        friend class PythonStepConstruct;
+        friend class PythonTemplateConstruct;
+        friend class JavaDataConstruct;
+        friend class JavaStepConstruct;
+        friend class CsharpDataConstruct;
+        friend class CsharpStepConstruct;
 
         static std::string filterWord(const std::string& input);
         static std::vector<std::string> findFeatureFiles(const std::string& directory);

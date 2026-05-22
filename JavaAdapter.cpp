@@ -81,4 +81,19 @@ std::string JavaAdapter::glueMethodSignature(const std::string& name,
     return "    void " + name + "(" + paramType + " " + paramName + " ) {";
 }
 
+std::string JavaAdapter::logFunction(const std::string& dirPath) {
+    if (!Configuration::logIt) return "";
+    std::string logFile = dirPath + "/log.txt";
+    return
+        "    private static void log(String value) {\n"
+        "        try {\n"
+        "            java.io.FileWriter fw = new java.io.FileWriter(\"" + logFile + "\", true);\n"
+        "            fw.write(value + \"\\n\");\n"
+        "            fw.close();\n"
+        "        } catch (java.io.IOException e) {\n"
+        "            System.err.println(\"*** Cannot write to log: \" + e.getMessage());\n"
+        "        }\n"
+        "    }";
+}
+
 } // namespace gherkinexecutor

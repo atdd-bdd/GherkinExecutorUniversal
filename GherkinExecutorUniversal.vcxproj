@@ -136,6 +136,13 @@
     <ClCompile Include="JavaAdapter.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PythonAdapter.cpp" />
+    <ClCompile Include="PythonDataConstruct.cpp" />
+    <ClCompile Include="PythonStepConstruct.cpp" />
+    <ClCompile Include="PythonTemplateConstruct.cpp" />
+    <ClCompile Include="JavaDataConstruct.cpp" />
+    <ClCompile Include="JavaStepConstruct.cpp" />
+    <ClCompile Include="CsharpDataConstruct.cpp" />
+    <ClCompile Include="CsharpStepConstruct.cpp" />
     <ClCompile Include="StepConstruct.cpp" />
     <ClCompile Include="TagEvaluator.cpp" />
     <ClCompile Include="TemplateConstruct.cpp" />
@@ -152,6 +159,13 @@
     <ClInclude Include="JavaAdapter.h" />
     <ClInclude Include="LanguageAdapter.h" />
     <ClInclude Include="PythonAdapter.h" />
+    <ClInclude Include="PythonDataConstruct.h" />
+    <ClInclude Include="PythonStepConstruct.h" />
+    <ClInclude Include="PythonTemplateConstruct.h" />
+    <ClInclude Include="JavaDataConstruct.h" />
+    <ClInclude Include="JavaStepConstruct.h" />
+    <ClInclude Include="CsharpDataConstruct.h" />
+    <ClInclude Include="CsharpStepConstruct.h" />
     <ClInclude Include="StepConstruct.h" />
     <ClInclude Include="TagFilterEvaluator.h" />
     <ClInclude Include="TemplateConstruct.h" />

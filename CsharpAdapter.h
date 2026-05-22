@@ -112,6 +112,29 @@ public:
             "using System.Text.RegularExpressions;"
         };
     }
+    std::string traceConsoleOutput(const std::string& funcName) override {
+        return consoleOutput("\"---  \" + \"" + funcName + "\"");
+    }
+    std::string traceLogCall(const std::string& funcName) override {
+        return logCall("\"---  \" + \"" + funcName + "\"");
+    }
+    std::string forEachElementLog(const std::string& elemType, const std::string& listName, const std::string& logExpr) override {
+        return "        foreach (" + elemType + " v in " + listName + ") { " + logCallInline(logExpr) + " }";
+    }
+    std::string testBodyPrefix() override { return "            "; }  // 12 spaces (C# indentation inside namespace+class)
+    std::string conversionMethodPrefix() override { return "To"; }
+    std::string logFunction(const std::string& dirPath) override;
+    std::string logCallInline(const std::string& value) override { return "Log(" + value + ");"; }
+    std::string innerListOpen() override { return "new List<string>{"; }
+    std::string innerListClose() override { return "}"; }
+    std::string listOfListOuterLoopBegin(const std::string& listName) override {
+        return "        foreach (List<string> row in " + listName + ") {";
+    }
+    std::string listOfListInnerLoopBegin() override {
+        return "            foreach (string element in row) {";
+    }
+    std::string listOfListInnerLoopEnd() override { return "            }"; }
+    std::string listOfListOuterLoopEnd() override { return "        }"; }
 
 private:
     std::string featureName;

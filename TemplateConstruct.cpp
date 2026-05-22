@@ -48,7 +48,8 @@ namespace gherkinexecutor {
         parent->glueFunctions[fullName] = dataType;
         LanguageAdapter* adapter = parent->getAdapter();
 
-        templateHeaderPrint("   void " + fullName + "(" + dataType + " values); ");
+        if (adapter->usesHeaderFile())
+            templateHeaderPrint("   void " + fullName + "(" + dataType + " values); ");
         templatePrint(adapter->scalarGlueMethodSignature(fullName, dataType, "value"));
         templatePrint(adapter->singleValueTrace(fullName));
         if (Configuration::logIt)
@@ -70,15 +71,15 @@ namespace gherkinexecutor {
         std::string lsType = adapter->listType(stype);
         std::string llsType = adapter->listOfListType();
 
-        templateHeaderPrint("   void " + fullName + "(const " + dataType + "& values); ");
+        if (adapter->usesHeaderFile())
+            templateHeaderPrint("   void " + fullName + "(const " + dataType + "& values); ");
         templatePrint(adapter->glueMethodSignature(fullName, dataType, "values"));
         templatePrint(adapter->traceConsoleOutput(fullName));
 
         if (dataType == lsType || dataType == "const " + lsType) {
             if (Configuration::logIt) {
-                templatePrint(adapter->logCall("\"---  \" + std::string(\"" + fullName + "\")"));
-                templatePrint("        for (const auto& v : values) { " +
-                              adapter->logCallInline("v") + " }");
+                templatePrint(adapter->traceLogCall(fullName));
+                templatePrint(adapter->forEachElementLog(stype, "values", "v"));
             }
             templatePrint(adapter->forEachBegin(listElement, "values"));
             templatePrint("     " + adapter->consoleOutput("value"));
@@ -86,22 +87,21 @@ namespace gherkinexecutor {
             templatePrint(adapter->forEachEnd());
         }
         else if (dataType == llsType) {
-            templatePrint("        for (const auto& row : values) {");
-            templatePrint("            for (const auto& element : row) {");
+            templatePrint(adapter->listOfListOuterLoopBegin("values"));
+            templatePrint(adapter->listOfListInnerLoopBegin());
             templatePrint("    " + adapter->objectListElementPrint("element"));
             if (Configuration::logIt)
                 templatePrint("        " + adapter->logCall("element"));
-            templatePrint("            }");
+            templatePrint(adapter->listOfListInnerLoopEnd());
             templatePrint("    " + adapter->objectListNewline());
-            templatePrint("        }");
+            templatePrint(adapter->listOfListOuterLoopEnd());
             if (Configuration::logIt)
-                templatePrint(adapter->logCall("\"---  \" + std::string(\"" + fullName + "\")"));
+                templatePrint(adapter->traceLogCall(fullName));
         }
         else {
             if (Configuration::logIt) {
-                templatePrint(adapter->logCall("\"---  \" + std::string(\"" + fullName + "\")"));
-                templatePrint("        for (const auto& v : values) { " +
-                              adapter->logCallInline("v." + adapter->toStringMethodName() + "()") + " }");
+                templatePrint(adapter->traceLogCall(fullName));
+                templatePrint(adapter->forEachElementLog(listElement, "values", "v." + adapter->toStringMethodName() + "()"));
             }
             std::string internalName = listElement + "Internal";
             templatePrint(adapter->forEachBegin(listElement, "values"));
@@ -109,7 +109,7 @@ namespace gherkinexecutor {
             templatePrint("             // Add calls to production code and asserts");
             if (listElement != stype &&
                 parent->dataNamesInternal.find(internalName) != parent->dataNamesInternal.end())
-                templatePrint("              " + internalName + " i = value.to" + internalName + "();");
+                templatePrint("              " + internalName + " i = value." + adapter->conversionMethodPrefix() + internalName + "();");
             templatePrint(adapter->forEachEnd());
         }
 
@@ -125,11 +125,12 @@ namespace gherkinexecutor {
         parent->glueFunctions[fullName] = dataType;
         LanguageAdapter* adapter = parent->getAdapter();
 
-        templateHeaderPrint("   void " + fullName + "(); ");
-        templatePrint("    void " + parent->glueClass + "::" + fullName + "(){");
+        if (adapter->usesHeaderFile())
+            templateHeaderPrint("   void " + fullName + "(); ");
+        templatePrint(adapter->noParamGlueMethodSignature(fullName));
         templatePrint(adapter->traceConsoleOutput(fullName));
         if (Configuration::logIt)
-            templatePrint(adapter->logCall("\"---  \" + std::string(\"" + fullName + "\")"));
+            templatePrint(adapter->traceLogCall(fullName));
         if (!Configuration::inTest)
             templatePrint("        " + adapter->failMacro("Must implement"));
         templatePrint("    }");
@@ -143,18 +144,19 @@ namespace gherkinexecutor {
         parent->glueFunctions[fullName] = dataType;
         LanguageAdapter* adapter = parent->getAdapter();
 
-        templateHeaderPrint("   void " + fullName + "(const " + dataType + "& values); ");
+        if (adapter->usesHeaderFile())
+            templateHeaderPrint("   void " + fullName + "(const " + dataType + "& values); ");
         templatePrint(adapter->glueMethodSignature(fullName, dataType, "values"));
         if (Configuration::logIt)
-            templatePrint(adapter->logCall("\"---  \" + std::string(\"" + fullName + "\")"));
-        templatePrint("    for (const auto& row : values) {");
-        templatePrint("        for (const auto& element : row) {");
-        templatePrint(adapter->objectListElementPrint("element"));
+            templatePrint(adapter->traceLogCall(fullName));
+        templatePrint(adapter->listOfListOuterLoopBegin("values"));
+        templatePrint(adapter->listOfListInnerLoopBegin());
+        templatePrint("    " + adapter->objectListElementPrint("element"));
         if (Configuration::logIt)
             templatePrint("    " + adapter->logCall("element"));
-        templatePrint("        }");
-        templatePrint(adapter->objectListNewline());
-        templatePrint("    }");
+        templatePrint(adapter->listOfListInnerLoopEnd());
+        templatePrint("    " + adapter->objectListNewline());
+        templatePrint(adapter->listOfListOuterLoopEnd());
         if (!Configuration::inTest)
             templatePrint("        " + adapter->failMacro("Must implement"));
         templatePrint("    }");

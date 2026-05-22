@@ -19,7 +19,27 @@
       "PowerShell(& \"C:\\\\Program Files\\\\Microsoft Visual Studio\\\\2022\\\\Community\\\\MSBuild\\\\Current\\\\Bin\\\\MSBuild.exe\" \"C:\\\\Users\\\\user\\\\source\\\\repos\\\\GherkinExecutorUniversal\\\\GherkinExecutorUniversal.sln\" /p:Configuration=Debug /p:Platform=x64 /t:Build /v:minimal 2>&1 | Select-Object -Last 15)",
       "Bash(git init *)",
       "Bash(gh auth *)",
-      "PowerShell(gh auth *)"
+      "PowerShell(gh auth *)",
+      "WebFetch(domain:github.com)",
+      "PowerShell(cmd /c \"dir /a /s C:\\\\Users\\\\user\\\\source\\\\repos\\\\GherkinExecutorUniversal\\\\gherkinexecutor\")",
+      "Bash(g++ -std=c++17 -Wall -Wno-unused-variable -I. *.cpp -o GherkinExecutorUniversal.exe)",
+      "Bash(g++ -std=c++17 -I. DataConstruct.cpp StepConstruct.cpp TemplateConstruct.cpp PythonDataConstruct.cpp PythonStepConstruct.cpp PythonTemplateConstruct.cpp Translate.cpp Configuration.cpp InputIterator.cpp ImportConstruct.cpp TagEvaluator.cpp CppAdapter.cpp PythonAdapter.cpp JavaAdapter.cpp CsharpAdapter.cpp main.cpp -o GherkinExecutorUniversal.exe)",
+      "Bash(.\\\\GherkinExecutorUniversal.exe starting.featurex)",
+      "Bash(./GherkinExecutorUniversal.exe starting.featurex)",
+      "Bash(python3 -m py_compile \"gherkinexecutor/Feature_Starting/Feature_Starting_data.py\")",
+      "Bash(python3 -m py_compile \"gherkinexecutor/Feature_Starting/Feature_Starting.py\")",
+      "Bash(python3 -m py_compile \"gherkinexecutor/Feature_Starting/Feature_Starting_glue.py.tmpl\")",
+      "Bash(g++ -std=c++17 -I. *.cpp -o GherkinExecutorUniversal.exe)",
+      "Bash(./GherkinExecutorUniversal.exe full_test.featurex)",
+      "Bash(python3 -m py_compile gherkinexecutor/Feature_Starting/__init__.py)",
+      "Bash(python3 -m py_compile gherkinexecutor/Feature_Starting/Feature_Starting_data.py)",
+      "Bash(python3 -m py_compile gherkinexecutor/Feature_Starting/Feature_Starting.py)",
+      "Bash(python3 -m py_compile gherkinexecutor/Feature_Starting/Feature_Starting_glue.tmpl)",
+      "Bash(python3 -c ' *)",
+      "Bash(xargs ls -la)",
+      "Bash(g++ *.cpp -o GherkinExecutorUniversal.exe)",
+      "Bash(.\\\\GherkinExecutorUniversal.exe full_test.featurex)",
+      "Bash(git add *)"
     ]
   }
 }

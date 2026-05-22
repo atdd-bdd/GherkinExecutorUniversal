@@ -43,8 +43,8 @@ namespace gherkinexecutor {
         std::string stype = adapter->stringType();
         std::string dataType = adapter->listType(stype);
 
-        testPrint("        " + adapter->listVarDecl(stype, "stringList" + s) +
-                  adapter->listInitOpen());
+        std::string decl0 = adapter->listVarDecl(stype, "stringList" + s);
+        testPrint("        " + decl0 + adapter->listInitOpen());
         std::string comma = "";
         for (const auto& line : table) {
             testPrint("            " + comma + "\"" + line + "\"");
@@ -80,9 +80,9 @@ namespace gherkinexecutor {
         std::string s = std::to_string(getStepNumberInScenario());
         std::string dataType = adapter->listOfListType();
 
-        testPrint("        " + adapter->listVarDecl(adapter->listType(adapter->stringType()),
-                                                    "stringListList" + s) +
-                  adapter->listInitOpen());
+        std::string decl1 = adapter->listVarDecl(adapter->listType(adapter->stringType()),
+                                                    "stringListList" + s);
+        testPrint("        " + decl1 + adapter->listInitOpen());
         std::string comma = "";
         for (const auto& line : table) {
             convertBarLineToList(line, comma);
@@ -101,9 +101,9 @@ namespace gherkinexecutor {
         std::string stype = adapter->stringType();
         std::string dataType = adapter->listOfListType();
 
-        testPrint("        " + adapter->listVarDecl(adapter->listType(stype),
-                                                    "stringListList" + s) +
-                  adapter->listInitOpen());
+        std::string decl2 = adapter->listVarDecl(adapter->listType(stype),
+                                                    "stringListList" + s);
+        testPrint("        " + decl2 + adapter->listInitOpen());
         std::string comma = "";
         for (const auto& line : table) {
             convertBarLineToList(line, comma);
@@ -158,6 +158,7 @@ namespace gherkinexecutor {
     }
 
     void StepConstruct::createConvertTableToListOfListOfObjectMethod(const std::string& toClassOriginal) {
+        if (!outer->getAdapter()->usesHeaderFile()) return;
         outer->trace("Creating convertTableToListOfListOfObjectMethod for " + toClassOriginal);
         std::string toClass = outer->dataConstruct->alterDataType(toClassOriginal);
         DataConstruct::DataValues variable("s", "default", toClass, "notes");
@@ -225,8 +226,8 @@ namespace gherkinexecutor {
         std::string s = std::to_string(getStepNumberInScenario());
         std::string dataType = adapter->listType(className);
 
-        testPrint("        " + adapter->listVarDecl(className, "objectList" + s) +
-                  adapter->listInitOpen());
+        std::string decl3 = adapter->listVarDecl(className, "objectList" + s);
+        testPrint("        " + decl3 + adapter->listInitOpen());
         bool inHeaderLine = true;
         std::vector<std::vector<std::string>> dataList = convertToListList(table, transpose);
         std::vector<std::string> headers;

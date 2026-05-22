@@ -66,6 +66,9 @@ public:
     std::string traceConsoleOutput(const std::string& funcName) override {
         return "        std::cout << \"---  \" << \"" + funcName + "\" << std::endl;";
     }
+    std::string noParamGlueMethodSignature(const std::string& name) override {
+        return "    void " + glueClass + "::" + name + "(){";
+    }
     std::string scalarGlueMethodSignature(const std::string& name, const std::string& paramType,
                                           const std::string& paramName) override {
         return "    void " + glueClass + "::" + name + "(" + paramType + " " + paramName + " ) {";

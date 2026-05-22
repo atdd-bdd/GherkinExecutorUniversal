@@ -15,22 +15,14 @@ configuration:
   packageName: "gherkinexecutor"
   testSubDirectory: "gherkinexecutor/"
   dataDefinitionFileExtension: "cpp"
-  testFramework: "gtest"
+  testFramework: "unittest"
   addToPackageName: ""
   filterExpression: ""
   tagFilter: "@smoke"
-  linesToAddForDataAndGlue:
-    - "#include <iostream>"
-  outputLanguage: "cpp"
+  linesToAddForDataAndGlue: []
+  outputLanguage: "java"
   featureFiles:
     - "starting.featurex"
-    - "data_definition.featurex"
-    - "examples.featurex"
-    - "background.featurex"
-    - "define.featurex"
-    - "tables_and_strings.featurex"
-    - "datatype.featurex"
-    - "simple_test.featurex"
 
 
 

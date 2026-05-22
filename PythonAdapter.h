@@ -30,7 +30,7 @@ public:
 
     std::string classOpen(const std::string& name, const std::string& base) override {
         if (base.empty()) return "class " + name + ":";
-        return "class " + name + "(" + base + "):";
+        return "class Test" + name + "(" + base + "): ";
     }
     std::string classClose() override { return ""; }
     std::string fieldDeclaration(const std::string& type, const std::string& name,
@@ -42,6 +42,7 @@ public:
     std::string testMethodAnnotation() override { return ""; }
     std::string testMethodSignature(const std::string& scenarioName) override;
     std::string glueInstantiation(const std::string& glueObj) override;
+    std::string testBodyPrefix() override { return "        "; }  // 8 spaces for Python
     std::string failMacro(const std::string& msg) override {
         return "self.fail(\"" + msg + "\")";
     }
@@ -68,6 +69,8 @@ public:
     }
     std::string listInitOpen() override { return " = ["; }
     std::string listInitClose() override { return "]"; }
+    std::string innerListOpen() override { return "["; }
+    std::string innerListClose() override { return "]"; }
     std::string builderCreate(const std::string& cls) override { return cls + ".Builder()"; }
     std::string builderSet(const std::string& field, const std::string& value) override {
         return "." + field + "(" + value + ")";
@@ -99,6 +102,16 @@ public:
     std::string forEachEnd() override { return ""; }
 
     std::vector<std::string> dataFileImports() override { return {}; }
+    std::string logFunction(const std::string& dirPath) override;
+    std::string noParamGlueMethodSignature(const std::string& name) override {
+        return "    def " + name + "(self):";
+    }
+    std::string traceLogCall(const std::string& funcName) override {
+        return logCall("\"---  \" + \"" + funcName + "\"");
+    }
+    std::string forEachElementLog(const std::string& /*elemType*/, const std::string& listName, const std::string& logExpr) override {
+        return "        for v in " + listName + ": " + logCallInline(logExpr);
+    }
 
 private:
     std::string featureName;

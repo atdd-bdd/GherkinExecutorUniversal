@@ -3,29 +3,27 @@
 namespace gherkinexecutor {
     class Translate;
     class TemplateConstruct {
-    private:
-        Translate* parent;
-
     public:
         std::unique_ptr<std::ofstream> glueTemplateFile;
-        std::unique_ptr<std::ofstream> glueTemplateFileHeader; 
+        std::unique_ptr<std::ofstream> glueTemplateFileHeader;
 
         int processNamespaces(const std::string& packagePath);
         void endNamespace(const std::string& packagePath);
 
         explicit TemplateConstruct(Translate* parent) : parent(parent) {}
-        ~TemplateConstruct() = default;
+        virtual ~TemplateConstruct() = default;
 
-        void beginTemplate();
-        void endTemplate();
-        void makeFunctionTemplate(const std::string& dataType, const std::string& fullName);
-        void makeFunctionTemplateIsList(const std::string& dataType, const std::string& fullName,
+        virtual void beginTemplate();
+        virtual void endTemplate();
+        virtual void makeFunctionTemplate(const std::string& dataType, const std::string& fullName);
+        virtual void makeFunctionTemplateIsList(const std::string& dataType, const std::string& fullName,
             const std::string& listElement);
-        void makeFunctionTemplateNothing(const std::string& dataType, const std::string& fullName);
-        void makeFunctionTemplateObject(const std::string& dataType, const std::string& fullName,
+        virtual void makeFunctionTemplateNothing(const std::string& dataType, const std::string& fullName);
+        virtual void makeFunctionTemplateObject(const std::string& dataType, const std::string& fullName,
             const std::string& listElement);
 
-    private:
+    protected:
+        Translate* parent;
         void templatePrint(const std::string& line);
         void templateHeaderPrint(const std::string& line);
         bool checkForExistingTemplate(const std::string& dataType, const std::string& fullName);

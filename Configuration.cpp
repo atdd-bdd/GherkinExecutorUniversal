@@ -411,13 +411,13 @@ namespace gherkinexecutor {
                     addToPackageName = unescapeYamlString(value);
                 }
                 else if (key == "linesToAddForDataAndGlue") {
-                    // Check if it's an inline array or multi-line array
-                    if (value.empty() || value == "[]") {
-                        // Multi-line array format - read next lines starting with -
+                    if (value == "[]") {
+                        linesToAddForDataAndGlue.clear();
+                    }
+                    else if (value.empty()) {
                         linesToAddForDataAndGlue = parseMultiLineYamlArray(file);
                     }
                     else {
-                        // Inline array format
                         linesToAddForDataAndGlue = parseYamlArray(value);
                     }
                 }
@@ -425,13 +425,13 @@ namespace gherkinexecutor {
                     filterExpression = unescapeYamlString(value);
                 }
                 else if (key == "featureFiles") {
-                    // Check if it's an inline array or multi-line array
-                    if (value.empty() || value == "[]") {
-                        // Multi-line array format
+                    if (value == "[]") {
+                        featureFiles.clear();
+                    }
+                    else if (value.empty()) {
                         featureFiles = parseMultiLineYamlArray(file);
                     }
                     else {
-                        // Inline array format
                         featureFiles = parseYamlArray(value);
                     }
                 }

@@ -103,6 +103,28 @@ public:
     std::vector<std::string> dataFileImports() override {
         return { "import java.util.*;" };
     }
+    std::string traceConsoleOutput(const std::string& funcName) override {
+        return consoleOutput("\"---  \" + \"" + funcName + "\"");
+    }
+    std::string traceLogCall(const std::string& funcName) override {
+        return logCall("\"---  \" + \"" + funcName + "\"");
+    }
+    std::string forEachElementLog(const std::string& elemType, const std::string& listName, const std::string& logExpr) override {
+        return "        for (" + elemType + " v : " + listName + ") { " + logCallInline(logExpr) + " }";
+    }
+    std::string testBodyPrefix() override { return "         "; }  // 9 spaces (matches reference)
+    std::string logFunction(const std::string& dirPath) override;
+    std::string logCallInline(const std::string& value) override { return "log(" + value + ");"; }
+    std::string innerListOpen() override { return "List.of("; }
+    std::string innerListClose() override { return ")"; }
+    std::string listOfListOuterLoopBegin(const std::string& listName) override {
+        return "        for (List<String> row : " + listName + ") {";
+    }
+    std::string listOfListInnerLoopBegin() override {
+        return "            for (String element : row) {";
+    }
+    std::string listOfListInnerLoopEnd() override { return "            }"; }
+    std::string listOfListOuterLoopEnd() override { return "        }"; }
 
 private:
     std::string featureName;

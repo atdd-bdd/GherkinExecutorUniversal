@@ -49,6 +49,7 @@ public:
     virtual std::string testMethodAnnotation() = 0;
     virtual std::string testMethodSignature(const std::string& scenarioName) = 0;
     virtual std::string glueInstantiation(const std::string& glueObj) = 0;
+    virtual std::string testBodyPrefix() { return "         "; }  // 9 spaces default (C++)
     virtual std::string failMacro(const std::string& msg) = 0;
 
     // Whether test methods live inside the test class (Java/Python/C#) vs outside (C++ TEST_F)
@@ -109,6 +110,18 @@ public:
     virtual std::string logCall(const std::string& value) = 0;
     virtual std::string logCallInline(const std::string& value) { return logCall(value); }
     virtual std::string traceConsoleOutput(const std::string& funcName) { return consoleOutput("\"---  \" + std::string(\"" + funcName + "\")"); }
+    virtual std::string traceLogCall(const std::string& funcName) {
+        return logCall("\"---  \" + std::string(\"" + funcName + "\")");
+    }
+    virtual std::string forEachElementLog(const std::string& /*elemType*/, const std::string& listName, const std::string& logExpr) {
+        return "        for (const auto& v : " + listName + ") { " + logCallInline(logExpr) + " }";
+    }
+    // Prefix for the conversion method name (e.g. "to" → toFandCInternal(), "To" → ToFandCInternal())
+    virtual std::string conversionMethodPrefix() { return "to"; }
+    // No-parameter glue method signature (default: delegate to glueMethodSignature with empty params)
+    virtual std::string noParamGlueMethodSignature(const std::string& name) {
+        return glueMethodSignature(name, "", "");
+    }
     // Scalar (single-value) glue method: may differ from list signature (e.g. no const&)
     virtual std::string scalarGlueMethodSignature(const std::string& name,
                                                    const std::string& paramType,
@@ -130,6 +143,15 @@ public:
     virtual std::string forEachEnd() = 0;
     virtual std::string innerListOpen() { return "{"; }
     virtual std::string innerListClose() { return "}"; }
+    // Nested loops for ListOfList / ListOfListOfObject glue stubs (8-space base indent)
+    virtual std::string listOfListOuterLoopBegin(const std::string& listName) {
+        return "        for (const auto& row : " + listName + ") {";
+    }
+    virtual std::string listOfListInnerLoopBegin() {
+        return "            for (const auto& element : row) {";
+    }
+    virtual std::string listOfListInnerLoopEnd() { return "            }"; }
+    virtual std::string listOfListOuterLoopEnd() { return "        }"; }
     virtual std::string glueClassClose() { return classClose(); }
     // Multiline string components (for line-by-line emission)
     virtual std::string multilineStringDeclSuffix() { return ""; }

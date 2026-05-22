@@ -11,6 +11,13 @@ namespace fs = std::filesystem;
 #include "TemplateConstruct.h"
 #include "ImportConstruct.h"
 #include "DefineConstruct.h"
+#include "PythonDataConstruct.h"
+#include "PythonStepConstruct.h"
+#include "PythonTemplateConstruct.h"
+#include "JavaDataConstruct.h"
+#include "JavaStepConstruct.h"
+#include "CsharpDataConstruct.h"
+#include "CsharpStepConstruct.h"
 
 #include <iostream>
 #include <fstream>
@@ -32,9 +39,23 @@ namespace gherkinexecutor {
 
         filterExpression = Configuration::filterExpression;
 
-        dataConstruct    = std::make_unique<DataConstruct>(this);
-        templateConstruct = std::make_unique<TemplateConstruct>(this);
-        stepConstruct    = std::make_unique<StepConstruct>(this);
+        if (Configuration::outputLanguage == "python") {
+            dataConstruct     = std::make_unique<PythonDataConstruct>(this);
+            templateConstruct = std::make_unique<PythonTemplateConstruct>(this);
+            stepConstruct     = std::make_unique<PythonStepConstruct>(this);
+        } else if (Configuration::outputLanguage == "java") {
+            dataConstruct     = std::make_unique<JavaDataConstruct>(this);
+            templateConstruct = std::make_unique<TemplateConstruct>(this);
+            stepConstruct     = std::make_unique<JavaStepConstruct>(this);
+        } else if (Configuration::outputLanguage == "csharp") {
+            dataConstruct     = std::make_unique<CsharpDataConstruct>(this);
+            templateConstruct = std::make_unique<TemplateConstruct>(this);
+            stepConstruct     = std::make_unique<CsharpStepConstruct>(this);
+        } else {
+            dataConstruct     = std::make_unique<DataConstruct>(this);
+            templateConstruct = std::make_unique<TemplateConstruct>(this);
+            stepConstruct     = std::make_unique<StepConstruct>(this);
+        }
         importConstruct  = std::make_unique<ImportConstruct>(this);
         defineConstruct  = std::make_unique<DefineConstruct>(this);
     }
@@ -403,9 +424,9 @@ namespace gherkinexecutor {
         std::string dataHeaderPathname = Configuration::testSubDirectory + featureDirectory +
                                          featureName + "/" + dataHeaderFilename;
 
-        std::string glueExt = adapter->usesHeaderFile() ? ".tmpl" : ext + ".tmpl";
+        std::string glueExt = adapter->usesHeaderFile() ? ext + ".tmpl" : ".tmpl";
         std::string templateFilename = Configuration::testSubDirectory + featureDirectory +
-                                       featureName + "/" + featureName + "_glue" + ext + ".tmpl";
+                                       featureName + "/" + featureName + "_glue" + glueExt;
         std::string templateFilenameHeader = Configuration::testSubDirectory + featureDirectory +
                                              featureName + "/" + featureName + "_glue" + hdrExt + ".tmpl";
 
@@ -480,7 +501,7 @@ namespace gherkinexecutor {
         checkForTagLine();
 
         testPrint("    " + adapter->testMethodSignature(fullNameToUse));
-        testPrint("         " + adapter->glueInstantiation(glueObject));
+        testPrint(adapter->testBodyPrefix() + adapter->glueInstantiation(glueObject));
 
         if (Configuration::logIt)
             testPrint(adapter->logCall("\"" + fullNameToUse + "\""));

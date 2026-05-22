@@ -1,0 +1,13 @@
+Feature: Full Test
+
+Include "background.featurex"
+Include "data_definition.featurex"
+Include "data_definition_error.featurex"
+Include "define.featurex"
+Include "examples.featurex"
+Include "import.featurex"
+Include "include.featurex"
+Include "simple_test.featurex"
+Include "tables_and_strings.featurex"
+Include "tic_tac_toe.featurex"
+Include "json.featurex"

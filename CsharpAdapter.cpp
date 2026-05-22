@@ -87,4 +87,19 @@ std::string CsharpAdapter::glueMethodSignature(const std::string& name,
     return "    public void " + name + "(" + paramType + " " + paramName + " ) {";
 }
 
+std::string CsharpAdapter::logFunction(const std::string& dirPath) {
+    if (!Configuration::logIt) return "";
+    std::string logFile = dirPath + "/log.txt";
+    return
+        "    private static void Log(string value) {\n"
+        "        try {\n"
+        "            using (var sw = new System.IO.StreamWriter(\"" + logFile + "\", true)) {\n"
+        "                sw.WriteLine(value);\n"
+        "            }\n"
+        "        } catch (Exception e) {\n"
+        "            Console.Error.WriteLine(\"*** Cannot write to log: \" + e.Message);\n"
+        "        }\n"
+        "    }";
+}
+
 } // namespace gherkinexecutor
